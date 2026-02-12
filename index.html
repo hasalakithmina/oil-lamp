@@ -2,32 +2,40 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- Makes layout responsive on mobile devices -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Jasper 2025 - Research Symposium</title>
+
+<!-- Google Font -->
 <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
+  /* -------------------- BODY STYLING -------------------- */
   body {
     padding: 0;
     margin: 0;
-    height: 100vh;
+    height: 100vh; /* Full screen height */
     display: flex;
     justify-content: center;
     align-items: center;
-    background: #ffd6de;
-    overflow: hidden;
+    background: #ffd6de; /* Soft pink background */
+    overflow: hidden; /* Prevent scrollbars */
     flex-direction: column;
-    cursor: none;
+    cursor: none; /* Hide default cursor (custom cursor used) */
   }
 
+  /* -------------------- PARTICLE BACKGROUND -------------------- */
   #particles-js {
     position: fixed;
     top: -20px;
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: 0;
+    z-index: 0; /* Behind everything */
   }
 
+  /* -------------------- TITLE SECTION -------------------- */
   .title {
     margin-top: 160px;
     text-align: center;
@@ -36,6 +44,7 @@
     line-height: 1.3;
   }
 
+  /* Main title (JASPER 2025) */
   .title .main { 
     font-size: 60px; 
     font-weight: bold; 
@@ -45,6 +54,7 @@
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.804);
   }
 
+  /* Subtitle (Research Symposium) */
   .title .sub { 
     font-size: 40px; 
     font-weight: bold; 
@@ -54,6 +64,7 @@
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.459); 
   }
 
+  /* Partnership text */
   .title .partnership { 
     font-size: 20px; 
     font-weight: normal; 
@@ -63,6 +74,7 @@
     margin-top: 10px; 
   }
 
+  /* Container for dynamically created lamps */
   .wave-container { 
     position: relative; 
     width: 100%; 
@@ -70,109 +82,143 @@
     z-index: 1; 
   }
 
+  /* Individual lamp wrapper */
   .lamp-container {
     position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
-    cursor: pointer;
+    cursor: pointer; /* Clickable */
   }
 
+  /* Lamp main image and animated base */
   .lamp-img,
   .lamp-base {
     position: absolute;
     object-fit: contain;
-    pointer-events: none;
+    pointer-events: none; /* Prevent image from blocking clicks */
   }
 
+  /* Default lamp state */
   .lamp-img {
     z-index: 1;
     filter: hue-rotate(180deg) saturate(3) brightness(0.9);
   }
 
+  /* Lit lamp animation (hidden initially) */
   .lamp-base {
     display: none;
     z-index: 2;
     filter: hue-rotate(0deg) saturate(3) brightness(0.9);
   }
   
+  /* Overlay glow effect */
   .lamp-img2 {
     z-index: 3;
     filter: hue-rotate(180deg) saturate(3) brightness(0.9);
-	  opacity: 0.75;
+    opacity: 0.75;
   }
 
-  .sakura { position: fixed; width: 300px; height: auto; z-index: 1; }
+  /* Sakura decorative images */
+  .sakura { 
+    position: fixed; 
+    width: 300px; 
+    height: auto; 
+    z-index: 1; 
+  }
+
   .sakura.left { bottom: 10px; left: 0; }
   .sakura.right { bottom: 10px; right: 0; transform: scaleX(-1); }
 
+  /* Top corner flags */
   .corner { 
     position: absolute; 
     top: 50px; 
     width: 150px; 
     z-index: 5; 
   }
+
   .corner.left { left: 50px; }
   .corner.right { right: 50px; }
 
+  /* Logo positioning */
   .logo-container {
     position: absolute;
     top: 70px;
     left: 50%;
     transform: translateX(-50%);
-    padding: 0px;
     z-index: 5;
     display: inline-flex;
     justify-content: center;
     align-items: center;
-    border-radius: 5px;
   }
 
-  .logo { width: 250px; height: auto; display: block; padding: 0; }
+  .logo { width: 250px; height: auto; }
 
+  /* Custom candle cursor */
   #candle-cursor {
     position: fixed;
     width: 130px;
     height: 80px;
-    pointer-events: none;
+    pointer-events: none; /* So it doesn't block clicks */
     z-index: 9999;
     transform: translate(-50%, -50%) rotate(-50deg);
   }
 </style>
 </head>
+
 <body>
+
+<!-- Particle background -->
 <div id="particles-js"></div>
 
+<!-- Country Flags -->
 <img src="srilanka.gif" alt="Sri Lanka Flag" class="corner left">
 <img src="japan.gif" alt="Japan Flag" class="corner right">
 
+<!-- Logo -->
 <div class="logo-container">
   <img src="logo.png" alt="Logo" class="logo">
 </div>
 
+<!-- Title Section -->
 <div class="title">
-  <span class="main">JASPER 2025</span>
-  <span class="sub">Research Symposium</span>
-  <span class="partnership">Japan - Sri Lanka partnership in Education and Research</span>
+  <span class="main">INAUGURATION CEROMONY</span>
+  <span class="sub">February Intake - 2026
+</span>
+  <span class="partnership">
+    Welcoming our new students to a journey of learning, innovation, and achievement.
+  </span>
 </div>
 
+<!-- Lamps container -->
 <div class="wave-container"></div>
 
+<!-- Decorative Sakura -->
 <img src="saki.gif" alt="Sakura" class="sakura left">
 <img src="saki.gif" alt="Sakura" class="sakura right">
 
+<!-- Custom Cursor -->
 <img src="dan.gif" id="candle-cursor" alt="Candle Cursor">
 
+<!-- External particles library -->
 <script src="particles.min.js"></script>
-<script>
-function createCurveLamps(numLamps, lampSize, offsetY, margin, curveHeight) {
-  const container = document.querySelector('.wave-container');
-  const lampWidth = lampSize;
-  const leftEdge = margin;
-  const rightEdge = window.innerWidth - margin - lampWidth;
 
-  // Generate lamps evenly along the curve using sine distribution
+<script>
+
+/* =========================================================
+   FUNCTION: Create lamps in sine wave curve pattern
+   ========================================================= */
+function createCurveLamps(numLamps, lampSize, offsetY, margin, curveHeight) {
+
+  const container = document.querySelector('.wave-container');
+
+  const leftEdge = margin;
+  const rightEdge = window.innerWidth - margin - lampSize;
+
+  // Distribute lamps evenly along sine curve
   for (let i = 0; i < numLamps; i++) {
+
     const t = i / (numLamps - 1); 
     const x = leftEdge + t * (rightEdge - leftEdge);
     const y = offsetY + Math.sin(t * Math.PI) * curveHeight;
@@ -184,6 +230,7 @@ function createCurveLamps(numLamps, lampSize, offsetY, margin, curveHeight) {
     lampContainer.style.left = `${x}px`;
     lampContainer.style.top = `${y}px`;
 
+    // Lamp image (default)
     const lampImg = document.createElement('img');
     lampImg.src = 'lamp.png';
     lampImg.className = 'lamp-img';
@@ -191,126 +238,81 @@ function createCurveLamps(numLamps, lampSize, offsetY, margin, curveHeight) {
     lampImg.style.height = lampSize + "px";
     lampContainer.appendChild(lampImg);
 
+    // Animated lamp base (lit state)
     const lampBase = document.createElement('img');
     lampBase.src = 'lamp01.gif';
     lampBase.className = 'lamp-base';
     lampBase.style.width = lampSize + "px";
     lampBase.style.height = lampSize + "px";
     lampContainer.appendChild(lampBase);
-	
-	const lampImg2 = document.createElement('img');
+
+    // Glow overlay
+    const lampImg2 = document.createElement('img');
     lampImg2.src = 'lamp.png';
     lampImg2.className = 'lamp-img2';
     lampImg2.style.width = lampSize + "px";
     lampImg2.style.height = lampSize + "px";
     lampContainer.appendChild(lampImg2);
 
+    // Toggle light on click
     lampContainer.addEventListener('click', () => {
       const isLit = lampBase.style.display === 'block';
-      if (isLit) {
-        lampBase.style.display = 'none';
-        lampImg.style.display = 'block';
-		    lampImg2.style.display = 'block';
-      } else {
-        lampBase.style.display = 'block';
-        lampImg.style.display = 'none';
-		    lampImg2.style.display = 'block';
-      }
+      lampBase.style.display = isLit ? 'none' : 'block';
+      lampImg.style.display = isLit ? 'block' : 'none';
     });
 
     container.appendChild(lampContainer);
   }
 }
 
-// 🔥 Single center lamp
-function createSingleLamp(x, y, size) {
-  const container = document.querySelector('.wave-container');
-
-  const lampContainer = document.createElement('div');
-  lampContainer.className = 'lamp-container';
-  lampContainer.style.width = size + "px";
-  lampContainer.style.height = size + "px";
-  lampContainer.style.left = `${x}px`;
-  lampContainer.style.top = `${y}px`;
-
-  const lampImg = document.createElement('img');
-  lampImg.src = 'lamp.png';
-  lampImg.className = 'lamp-img';
-  lampImg.style.width = size + "px";
-  lampImg.style.height = size + "px";
-  lampContainer.appendChild(lampImg);
-
-  const lampBase = document.createElement('img');
-  lampBase.src = 'lamp01.gif';
-  lampBase.className = 'lamp-base';
-  lampBase.style.width = size + "px";
-  lampBase.style.height = size + "px";
-  lampContainer.appendChild(lampBase);
-
-  const lampImg2 = document.createElement('img');
-  lampImg2.src = 'lamp.png';
-  lampImg2.className = 'lamp-img2';
-  lampImg2.style.width = size + "px";
-  lampImg2.style.height = size + "px";
-  lampContainer.appendChild(lampImg2);
-
-  lampContainer.addEventListener('click', () => {
-    const isLit = lampBase.style.display === 'block';
-    if (isLit) {
-      lampBase.style.display = 'none';
-      lampImg.style.display = 'block';
-      lampImg2.style.display = 'block';
-    } else {
-      lampBase.style.display = 'block';
-      lampImg.style.display = 'none';
-      lampImg2.style.display = 'block';
-    }
-  });
-
-  container.appendChild(lampContainer);
-}
-
+/* =========================================================
+   Create all lamps
+   ========================================================= */
 function createLamps() {
   const container = document.querySelector('.wave-container');
-  container.innerHTML = '';
+  container.innerHTML = ''; // Clear old lamps
 
-  // Bottom row
-  createCurveLamps(7, 150, 0, 0, 250);
-
-  // Top row
-  createCurveLamps(6, 130, -50, 200, 200);
-
+  createCurveLamps(7, 150, 0, 0, 250);      // Bottom row
+  createCurveLamps(6, 130, -50, 200, 200);  // Top row
 }
 
 createLamps();
+
+/* Rebuild lamps when window resizes */
 window.addEventListener('resize', createLamps);
 
-// Candle cursor
+/* =========================================================
+   Custom Cursor Movement
+   ========================================================= */
 const candle = document.getElementById("candle-cursor");
+
 document.addEventListener("mousemove", (e) => {
   candle.style.left = e.clientX + "px";
   candle.style.top = e.clientY + "px";
 });
 
-// Particles
+/* =========================================================
+   Particles Configuration
+   ========================================================= */
 particlesJS("particles-js", {
-  "particles": {
-    "number": { "value": 100 },
-    "color": { "value": "#FA73CE" },
-    "shape": { "type": "circle" },
-    "opacity": { "value": 0.6 },
-    "size": { "value": 3 },
-    "line_linked": { "enable": false },
-    "move": { "enable": true, "speed": 2 }
+  particles: {
+    number: { value: 100 },
+    color: { value: "#FA73CE" },
+    shape: { type: "circle" },
+    opacity: { value: 0.6 },
+    size: { value: 3 },
+    line_linked: { enable: false },
+    move: { enable: true, speed: 2 }
   },
-  "interactivity": {
-    "events": {
-      "onhover": { "enable": true, "mode": "repulse" },
-      "onclick": { "enable": true, "mode": "push" }
+  interactivity: {
+    events: {
+      onhover: { enable: true, mode: "repulse" },
+      onclick: { enable: true, mode: "push" }
     }
   },
-  "retina_detect": true
+  retina_detect: true
 });
+
 </script>
 </body>
 </html>
